@@ -1,0 +1,18 @@
+#!/bin/sh
+
+BUILD_DIR=$1
+
+echo "-----> Installing Kubescape CLI..."
+
+curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | bash -s -- -v latest
+
+echo "-----> Moving kubescape to bin directory..."
+
+mkdir -p "$BUILD_DIR/.heroku/kubescape"
+mv kubescape "$BUILD_DIR/.heroku/kubescape/"
+
+echo "-----> Adding kubescape to PATH"
+mkdir -p "$BUILD_DIR/.profile.d"
+echo 'export PATH=$PATH:/app/.heroku/kubescape' >> "$BUILD_DIR/.profile.d/kubescape.sh"
+
+echo "-----> Kubescape installation complete."

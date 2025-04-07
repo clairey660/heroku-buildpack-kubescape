@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "kubescape"
+exit 0
