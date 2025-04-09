@@ -1,18 +1,29 @@
-#!/bin/sh
+#!/usr/bin/env bash
+# Based on the structure from the Trivy buildpack
+set -e
+
+unset GIT_DIR
 
 BUILD_DIR=$1
+CACHE_DIR=$2
 
-echo "-----> Installing Kubescape CLI..."
+KUBESCAPE_VERSION="3.0.4"
+KUBESCAPE_URL="https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-${KUBESCAPE_VERSION}-linux-x86_64.tar.gz"
 
-curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | bash -s -- -v latest
+mkdir -p "$BUILD_DIR/bin"
 
-echo "-----> Moving kubescape to bin directory..."
+if [ ! -d "$BUILD_DIR/.profile.d" ]; then
+    mkdir -p "$BUILD_DIR/.profile.d"
+fi
 
-mkdir -p "$BUILD_DIR/.heroku/kubescape"
-mv kubescape "$BUILD_DIR/.heroku/kubescape/"
+echo "----------------------- Downloading Kubescape version ${KUBESCAPE_VERSION} -------------------------------------------------------"
+curl -L "${KUBESCAPE_URL}" | tar xz -C "$BUILD_DIR/bin"
 
-echo "-----> Adding kubescape to PATH"
-mkdir -p "$BUILD_DIR/.profile.d"
-echo 'export PATH=$PATH:/app/.heroku/kubescape' >> "$BUILD_DIR/.profile.d/kubescape.sh"
+# Make sure the binary is executable
+chmod +x "$BUILD_DIR/bin/kubescape"
 
-echo "-----> Kubescape installation complete."
+# Add to PATH
+echo 'export PATH="$HOME/bin:$PATH"' > "$BUILD_DIR/.profile.d/kubescape.sh"
+
+echo "✅ Kubescape installation complete."
+exit 0
