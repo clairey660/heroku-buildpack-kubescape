@@ -13,12 +13,15 @@ mkdir -p "$BUILD_DIR/bin"
 mkdir -p "$BUILD_DIR/.profile.d"
 
 echo "----------------------- Downloading Kubescape version ${KUBESCAPE_VERSION} -------------------------------------------------------"
-curl -L "$KUBESCAPE_URL" -o "$BUILD_DIR/bin/kubescape"
+curl -fsSL "$KUBESCAPE_URL" -o "$BUILD_DIR/bin/kubescape"
 
 chmod +x "$BUILD_DIR/bin/kubescape"
 
 # Add to PATH
 echo 'export PATH="$HOME/bin:$PATH"' > "$BUILD_DIR/.profile.d/kubescape.sh"
+
+# Print version for verification
+"$BUILD_DIR/bin/kubescape" version || echo "⚠️  Kubescape download might have failed."
 
 echo "✅ Kubescape installation complete."
 exit 0
