@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Based on the structure from the Trivy buildpack
 set -e
 
 unset GIT_DIR
@@ -8,18 +7,14 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 KUBESCAPE_VERSION="3.0.34"
-KUBESCAPE_URL="https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-${KUBESCAPE_VERSION}-linux-x86_64.tar.gz"
+KUBESCAPE_URL="https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-linux-x86_64"
 
 mkdir -p "$BUILD_DIR/bin"
-
-if [ ! -d "$BUILD_DIR/.profile.d" ]; then
-    mkdir -p "$BUILD_DIR/.profile.d"
-fi
+mkdir -p "$BUILD_DIR/.profile.d"
 
 echo "----------------------- Downloading Kubescape version ${KUBESCAPE_VERSION} -------------------------------------------------------"
-curl -L "${KUBESCAPE_URL}" | tar xz -C "$BUILD_DIR/bin"
+curl -L "$KUBESCAPE_URL" -o "$BUILD_DIR/bin/kubescape"
 
-# Make sure the binary is executable
 chmod +x "$BUILD_DIR/bin/kubescape"
 
 # Add to PATH
