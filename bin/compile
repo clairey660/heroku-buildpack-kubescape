@@ -7,7 +7,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 
 KUBESCAPE_VERSION="3.0.34"
-KUBESCAPE_URL="https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-linux-x86_64"
+KUBESCAPE_URL="https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-ubuntu-latest"
 
 mkdir -p "$BUILD_DIR/bin"
 mkdir -p "$BUILD_DIR/.profile.d"
@@ -20,8 +20,8 @@ chmod +x "$BUILD_DIR/bin/kubescape"
 # Add to PATH
 echo 'export PATH="$HOME/bin:$PATH"' > "$BUILD_DIR/.profile.d/kubescape.sh"
 
-# Print version for verification
-"$BUILD_DIR/bin/kubescape" version || echo "⚠️  Kubescape download might have failed."
+# Optional: sanity check
+"$BUILD_DIR/bin/kubescape" version || echo "⚠️  Kubescape version check failed"
 
 echo "✅ Kubescape installation complete."
 exit 0
