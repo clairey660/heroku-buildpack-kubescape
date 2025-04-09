@@ -7,7 +7,7 @@ unset GIT_DIR
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-KUBESCAPE_VERSION="3.0.4"
+KUBESCAPE_VERSION="3.0.34"
 KUBESCAPE_URL="https://github.com/kubescape/kubescape/releases/download/v${KUBESCAPE_VERSION}/kubescape-${KUBESCAPE_VERSION}-linux-x86_64.tar.gz"
 
 mkdir -p "$BUILD_DIR/bin"
